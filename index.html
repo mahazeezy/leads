@@ -6,193 +6,56 @@
 <title>Business Dispatch</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f5f5f3;
-    color: #1a1a1a;
-    min-height: 100vh;
-    padding: 0;
-  }
-  .header {
-    background: #1a1a1a;
-    color: #fff;
-    padding: 18px 20px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+  .header { background: #1a1a1a; color: #fff; padding: 18px 20px 16px; position: sticky; top: 0; z-index: 50; }
   .header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
   .header p { font-size: 12px; color: #aaa; margin-top: 2px; }
   .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
-  .card {
-    background: #fff;
-    border-radius: 14px;
-    border: 1px solid #e8e8e4;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
+  .card { background: #fff; border-radius: 14px; border: 1px solid #e8e8e4; padding: 16px; margin-bottom: 12px; }
   .controls { display: flex; flex-direction: column; gap: 10px; }
   .search-wrap { position: relative; }
-  .search-wrap input { width: 100%; }
-  input[type=text], select {
-    width: 100%;
-    height: 44px;
-    padding: 0 14px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    background: #fff;
-    color: #1a1a1a;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-  }
+  input[type=text], select { width: 100%; height: 44px; padding: 0 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; background: #fff; color: #1a1a1a; outline: none; appearance: none; -webkit-appearance: none; }
   input[type=text]:focus, select:focus { border-color: #1a1a1a; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-  }
-  .btn {
-    width: 100%;
-    height: 48px;
-    background: #1a1a1a;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: -0.2px;
-    transition: opacity 0.15s;
-  }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  .btn { width: 100%; height: 48px; background: #1a1a1a; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
   .btn:hover { opacity: 0.85; }
   .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  #city-dropdown {
-    position: absolute;
-    top: 46px; left: 0; right: 0;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 200;
-    display: none;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  }
-  .city-opt {
-    padding: 11px 14px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #1a1a1a;
-    border-bottom: 1px solid #f0f0f0;
-  }
+  #city-dropdown { position: absolute; top: 46px; left: 0; right: 0; background: #fff; border: 1px solid #ddd; border-radius: 10px; max-height: 200px; overflow-y: auto; z-index: 200; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .city-opt { padding: 11px 14px; font-size: 14px; cursor: pointer; color: #1a1a1a; border-bottom: 1px solid #f0f0f0; }
   .city-opt:last-child { border-bottom: none; }
   .city-opt:hover { background: #f5f5f3; }
-  .status {
-    font-size: 13px;
-    color: #666;
-    text-align: center;
-    padding: 6px 0 2px;
-    min-height: 22px;
-  }
+  .status { font-size: 13px; color: #666; text-align: center; padding: 6px 0 2px; min-height: 22px; }
   .status.running { color: #1a6ef5; }
   .status.done { color: #18a058; }
   .status.err { color: #d93025; }
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .stat {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #e8e8e4;
-    padding: 12px 10px;
-    text-align: center;
-  }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat { background: #fff; border-radius: 12px; border: 1px solid #e8e8e4; padding: 12px 10px; text-align: center; }
   .stat-label { font-size: 11px; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
   .stat-value { font-size: 24px; font-weight: 700; color: #1a1a1a; }
   .results { display: flex; flex-direction: column; gap: 10px; }
-  .lead {
-    background: #fff;
-    border-radius: 14px;
-    border: 1px solid #e8e8e4;
-    padding: 14px 16px;
-  }
+  .lead { background: #fff; border-radius: 14px; border: 1px solid #e8e8e4; padding: 14px 16px; }
   .lead-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
   .lead-name { font-size: 15px; font-weight: 600; color: #1a1a1a; flex: 1; }
   .badges { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
-  .badge {
-    font-size: 10px; font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-    letter-spacing: 0.2px;
-  }
+  .badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
   .badge-red { background: #fdecea; color: #c5221f; }
   .badge-blue { background: #e8f0fe; color: #1a6ef5; }
   .lead-addr { font-size: 13px; color: #666; margin-bottom: 8px; }
-  .lead-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .lead-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
   .meta-item { font-size: 12px; color: #999; }
-  .meta-reason { font-size: 12px; color: #888; font-style: italic; }
+  .meta-reason { font-size: 12px; color: #888; font-style: italic; margin-bottom: 10px; }
   .lead-actions { display: flex; gap: 8px; border-top: 1px solid #f0f0f0; padding-top: 10px; flex-wrap: wrap; }
-  .act-btn {
-    flex: 1;
-    min-width: 100px;
-    height: 36px;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    background: #fff;
-    color: #444;
-    font-size: 13px;
-    cursor: pointer;
-    font-weight: 500;
-  }
+  .act-btn { flex: 1; min-width: 100px; height: 36px; border: 1px solid #ddd; border-radius: 9px; background: #fff; color: #444; font-size: 13px; cursor: pointer; font-weight: 500; }
   .act-btn:hover { background: #f5f5f3; }
   .act-btn.contacted { background: #f0faf4; color: #18a058; border-color: #b7e4c7; }
   .act-btn.pitch { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
   .act-btn.pitch:hover { opacity: 0.85; }
-  .empty { text-align: center; padding: 40px 20px; color: #999; font-size: 14px; }
-  .pitch-modal {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 300;
-    align-items: flex-end;
-    justify-content: center;
-  }
+  .pitch-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: flex-end; justify-content: center; }
   .pitch-modal.open { display: flex; }
-  .pitch-box {
-    background: #fff;
-    border-radius: 20px 20px 0 0;
-    padding: 24px 20px 36px;
-    width: 100%;
-    max-width: 640px;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
+  .pitch-box { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 640px; max-height: 80vh; overflow-y: auto; }
   .pitch-box h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
   .pitch-text { font-size: 15px; line-height: 1.7; color: #333; white-space: pre-wrap; }
-  .pitch-close {
-    width: 100%; height: 44px;
-    background: #1a1a1a; color: #fff;
-    border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 600;
-    cursor: pointer; margin-top: 20px;
-  }
-  .loading-dots::after {
-    content: '';
-    animation: dots 1.2s steps(3, end) infinite;
-  }
-  @keyframes dots {
-    0%   { content: ''; }
-    33%  { content: '.'; }
-    66%  { content: '..'; }
-    100% { content: '...'; }
-  }
+  .pitch-close { width: 100%; height: 44px; background: #1a1a1a; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -205,7 +68,8 @@
 <div class="container">
   <div class="card controls">
     <div class="search-wrap">
-      <input type="text" id="city-input" placeholder="Search city..." autocomplete="off" value="Madison, WI" oninput="filterCities()" onfocus="showDropdown()" onblur="hideDropdown()" />
+      <input type="text" id="city-input" placeholder="Search city..." autocomplete="off" value="Madison, WI"
+        oninput="filterCities()" onfocus="showDropdown()" onblur="hideDropdown()" />
       <div id="city-dropdown"></div>
     </div>
     <select id="category">
@@ -247,6 +111,8 @@
 </div>
 
 <script>
+const API_KEY = "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";
+
 const CITIES = [
   "Abilene, TX","Akron, OH","Albuquerque, NM","Alexandria, VA","Allentown, PA","Amarillo, TX","Anaheim, CA","Anchorage, AK","Ann Arbor, MI","Antioch, CA",
   "Arlington, TX","Arlington, VA","Atlanta, GA","Augusta, GA","Aurora, CO","Aurora, IL","Austin, TX","Bakersfield, CA","Baltimore, MD","Baton Rouge, LA",
@@ -290,6 +156,29 @@ function selectCity(c) {
 function showDropdown() { filterCities(); }
 function hideDropdown() { setTimeout(() => { document.getElementById('city-dropdown').style.display = 'none'; }, 150); }
 
+async function callClaude(prompt, maxTokens) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: maxTokens || 1500,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || 'HTTP ' + res.status);
+  }
+  const data = await res.json();
+  return data.content.map(i => i.text || '').join('').trim();
+}
+
 async function dispatch() {
   const city = document.getElementById('city-input').value.trim();
   if (!city) { setStatus('err', 'Please enter a city.'); return; }
@@ -298,37 +187,20 @@ async function dispatch() {
 
   const btn = document.getElementById('dispatchBtn');
   btn.disabled = true;
-  btn.textContent = 'Scanning';
-  btn.classList.add('loading-dots');
+  btn.textContent = 'Scanning...';
   setStatus('running', 'Finding ' + catLabel + ' in ' + city + ' with no website...');
   document.getElementById('stats').style.display = 'none';
   document.getElementById('results').innerHTML = '';
   leads = [];
 
-  const prompt = `You are a business research tool. Generate 10 realistic small businesses in the "${catLabel}" category in "${city}" that likely do NOT have a website. Return ONLY a raw JSON array, no markdown, no explanation. Each object:
-{ "name": "Business Name", "category": "${catLabel}", "address": "123 Street Name, ${city}", "phone": "local area code 555-XXXX", "rating": 4.2, "reviews": 31, "years_open": 8, "why_no_site": "short reason" }
+  const prompt = `Generate 10 realistic small businesses in the "${catLabel}" category in "${city}" that likely do NOT have a website. Return ONLY a raw JSON array, no markdown, no explanation. Each object:
+{ "name": "Business Name", "category": "${catLabel}", "address": "123 Street Name, ${city}", "phone": "(area) 555-XXXX", "rating": 4.2, "reviews": 31, "years_open": 8, "why_no_site": "short reason" }
 Diverse realistic names. Exactly 10 items. Raw JSON array only.`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1500,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || 'HTTP ' + res.status);
-    }
-    const data = await res.json();
-    const text = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
-    leads = JSON.parse(text);
+    const text = await callClaude(prompt, 1500);
+    const clean = text.replace(/```json|```/g, '').trim();
+    leads = JSON.parse(clean);
     renderLeads(leads, city);
   } catch(e) {
     setStatus('err', 'Error: ' + e.message);
@@ -336,13 +208,12 @@ Diverse realistic names. Exactly 10 items. Raw JSON array only.`;
 
   btn.disabled = false;
   btn.textContent = 'Dispatch';
-  btn.classList.remove('loading-dots');
 }
 
 function renderLeads(data, city) {
   const results = document.getElementById('results');
   if (!data || !data.length) {
-    results.innerHTML = '<div class="empty">No results. Try a different city or category.</div>';
+    results.innerHTML = '<div style="text-align:center;padding:40px;color:#999;font-size:14px">No results. Try a different city or category.</div>';
     setStatus('', '');
     return;
   }
@@ -350,7 +221,7 @@ function renderLeads(data, city) {
   document.getElementById('s-scanned').textContent = data.length + 5;
   document.getElementById('s-leads').textContent = data.length;
   document.getElementById('s-contacted').textContent = contacted.length;
-  setStatus('done', 'Found ' + data.length + ' leads with no website.');
+  setStatus('done', 'Found ' + data.length + ' leads in ' + city + '.');
 
   results.innerHTML = data.map((b, i) => {
     const key = b.name + b.address;
@@ -368,7 +239,7 @@ function renderLeads(data, city) {
         <span class="meta-item">★ ${b.rating} (${b.reviews} reviews)</span>
         <span class="meta-item">~${b.years_open} yrs open</span>
       </div>
-      <div class="lead-addr meta-reason">${b.why_no_site}</div>
+      <div class="meta-reason">${b.why_no_site}</div>
       <div class="lead-actions">
         <button class="act-btn ${isContacted ? 'contacted' : ''}" id="contact-btn-${i}" onclick="markContacted(${i}, '${key.replace(/'/g,"\\'")}')">
           ${isContacted ? '✓ Contacted' : 'Mark contacted'}
@@ -398,23 +269,10 @@ async function generatePitch(i) {
   pitchText.textContent = '';
   modal.classList.add('open');
 
-  const prompt = `Write a short, natural cold call script for selling a website to ${b.name}, a ${b.category} located at ${b.address}. They have no website. Open ~${b.years_open} years, ${b.reviews} Google reviews. Keep it conversational, confident, not pushy. Under 120 words. End with a clear ask for a callback or quick chat.`;
+  const prompt = `Write a short natural cold call script for selling a website to ${b.name}, a ${b.category} at ${b.address}. No website. Open ~${b.years_open} years, ${b.reviews} Google reviews. Conversational, confident, not pushy. Under 120 words. End with a clear ask.`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 300,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content.map(i => i.text || '').join('').trim();
+    const text = await callClaude(prompt, 400);
     pitchTitle.textContent = 'Script — ' + b.name;
     pitchText.textContent = text;
   } catch(e) {
